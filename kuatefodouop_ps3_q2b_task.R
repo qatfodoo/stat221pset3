@@ -1,3 +1,5 @@
+source("pset3.R")
+
 # 2 (b)
 
 # Model constants
@@ -5,15 +7,16 @@ p <- 100
 A.eigen <- seq(0.01, 1, length=p)
 D <- diag(A.eigen)
 # Random orthogonal matrix to get A with same eigenvalues
-Q <- rmf.matrix(D)
+Q <- random.orthogonal(p)
 A <- t(Q) %*% D %*% Q
 # True theta
 theta.star <- rep(1, p)
 
-T <- 1e5
+T <- 1e6
 alpha <- 1e-2
-gamma0 <- 1 / matrix.trace(A)
-lambda0 <- 0.01
+# params for the learning rate seq.
+gamma0 = 1 / (sum(seq(0.01, 1, length.out=p)))
+lambda0 = 0.01
 
 # Keep track of training and design matrix for batch estimates
 X <- c()

@@ -1,4 +1,4 @@
-
+source("pset3.R")
 library(matrixcalc)
 library(mvtnorm)
 
@@ -6,14 +6,7 @@ library(mvtnorm)
 
 # 2 (a)
 
-random.orthogonal <- function(p) {
-  # Get an orthogonal matrix.
-  B = matrix(runif(p^2), nrow=p)
-  qr.Q(qr(B))
-}
-
 # Model constants
-
 p <- 100
 A.eigen <- c(c(1, 1, 1), rep(0.02, p - 3))
 D <- diag(A.eigen)
@@ -28,6 +21,7 @@ theta0 <- rand(n=100, m=1)
 
 # Running estimates
 theta.sgd <- theta0
+theta.sgd_asgd <- theta0 # current estimate before ASGD averaging
 theta.asgd <- theta0
 theta.sgd_bad <- theta0
 theta.asgd_bad <- theta0
@@ -43,7 +37,7 @@ impl.risk <- c()
 batch.risk <- c()
 
 # SGD parameters
-T <- 1e5
+T <- 1e6
 alpha <- 1e-2
 
 for (t in 1:T) {
@@ -52,10 +46,12 @@ for (t in 1:T) {
   x <- rmvnorm(1, mean=rep(0, p), sigma=eye(p)) # Note: change for A?
   
   # SGD and ASGD
-  a_t <- (1 + 0.02 * t)^(- 1)
+  a_t.sgd <- (1 + 0.02 * t)^(- 1)
   theta.sgd <- theta.sgd + a_t * A %*% (t(x) - theta.sgd)
   sgd.risk <- c(sgd.risk, t(theta.sgd) %*% A %*% theta.sgd)
-  theta.asgd <- (1 - 1 / t) * theta.asgd + 1 / t * theta.sgd
+  a_t.asgd <- (1 + 0.02 * t)^(- 2 / 3)
+  theta.sgd_asgd <- theta.sgd_asgd + a_t.asgd * A %*% (t(x) - theta.sgd_asgd)
+  theta.asgd <- (1 - 1 / t) * theta.asgd + 1 / t * theta.sgd_asgd
   asgd.risk <- c(asgd.risk, t(theta.asgd) %*% A %*% theta.asgd)
   # SGD and ASGD bad
   a_t.bad <- (1 + t)^(- 1 / 2)
