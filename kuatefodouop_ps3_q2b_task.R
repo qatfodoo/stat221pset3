@@ -63,7 +63,7 @@ for (t in 1:T) {
   # Implicit
   theta.impl <- (diag(p) - as.numeric(a_t / (1 + a_t * x %*% t(x))) * t(x) %*% x) %*%
     (theta.impl + as.numeric(a_t * y) * t(x))
-  impl.risk <- c(impl.risk, t(theta.impl - theta.star) %*% A %*% (theta.batch - theta.star))
+  impl.risk <- c(impl.risk, t(theta.impl - theta.star) %*% A %*% (theta.impl - theta.star))
   
   # Batch
   if (t %% 100 == 0) { # Batch update every 100 iterations

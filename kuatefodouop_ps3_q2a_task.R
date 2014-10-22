@@ -16,7 +16,7 @@ A <- Q %*% D %*% t(Q)
 theta.star = rep(0, p)
 
 # Initial guess for iterative methods
-theta0 <- rand(n=100, m=1)
+theta0 <- runif(p, 0, 1)
 
 # Running estimates
 theta.sgd <- theta0
