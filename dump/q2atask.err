@@ -1,2 +1,4 @@
-Error: could not find function "rand"
+Error in isSymmetric(sigma, tol = sqrt(.Machine$double.eps), check.attributes = FALSE) : 
+  could not find function "eye"
+Calls: rmvnorm -> isSymmetric
 Execution halted
