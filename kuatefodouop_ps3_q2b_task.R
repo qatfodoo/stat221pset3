@@ -85,6 +85,6 @@ if (Sys.getenv("SLURM_JOB_ID") != "") { # Divide computation per tasks
   
   # Store results in output folder
   save(list=c("sgd.risk", "asgd.risk", "impl.risk", "batch.risk"), 
-       file=paste("./out/2b_risk_exp", exp, ".Rdata", sep=""))
+       file=paste("./out/2b_risk_exp", exp[exp.id], ".Rdata", sep=""))
   
 }
