@@ -1,5 +1,4 @@
 source("pset3.R")
-library(matrixcalc)
 library(mvtnorm)
 
 ## Question 2
@@ -60,7 +59,7 @@ for (t in 1:T) {
   theta.asgd_bad <- (1 - 1 / t) * theta.asgd_bad + 1 / t * theta.sgd_bad
   asgd_bad.risk <- c(asgd_bad.risk, t(theta.asgd_bad) %*% A %*% theta.asgd_bad)
   # Implicit
-  theta.impl <- pinv(eye(p) + a_t * A) %*% (theta.impl + a_t * A %*% t(x))
+  theta.impl <- pinv(diag(p) + a_t * A) %*% (theta.impl + a_t * A %*% t(x))
   impl.risk <- c(impl.risk, t(theta.impl) %*% A %*% theta.impl)
   
   # Batch

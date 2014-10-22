@@ -61,7 +61,7 @@ for (t in 1:T) {
   asgd.risk <- c(asgd.risk, t(theta.asgd - theta.star) %*% A %*% (theta.asgd - theta.star))
   
   # Implicit
-  theta.impl <- (eye(p) - as.numeric(a_t / (1 + a_t * x %*% t(x))) * t(x) %*% x) %*%
+  theta.impl <- (diag(p) - as.numeric(a_t / (1 + a_t * x %*% t(x))) * t(x) %*% x) %*%
     (theta.impl + as.numeric(a_t * y) * t(x))
   impl.risk <- c(impl.risk, t(theta.impl - theta.star) %*% A %*% (theta.batch - theta.star))
   
