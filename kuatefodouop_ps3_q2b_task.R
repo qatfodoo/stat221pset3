@@ -47,7 +47,7 @@ if (Sys.getenv("SLURM_JOB_ID") != "") { # Divide computation per tasks
   batch.risk <- c()
   
   for (t in 1:T) {
-    if (t %% 100 == 0) {print(t)}
+    if (t %% 1000 == 0) {print(t)}
     # Generate covariates
     x <- rmvnorm(1, mean=rep(0, p), sigma=A)
     # Generate vector of epsilons
