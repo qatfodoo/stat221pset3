@@ -46,7 +46,7 @@ for (t in 1:T) {
   
   # SGD and ASGD
   a_t.sgd <- (1 + 0.02 * t)^(- 1)
-  theta.sgd <- theta.sgd + a_t * A %*% (t(x) - theta.sgd)
+  theta.sgd <- theta.sgd + a_t.sgd * A %*% (t(x) - theta.sgd)
   sgd.risk <- c(sgd.risk, t(theta.sgd) %*% A %*% theta.sgd)
   a_t.asgd <- (1 + 0.02 * t)^(- 2 / 3)
   theta.sgd_asgd <- theta.sgd_asgd + a_t.asgd * A %*% (t(x) - theta.sgd_asgd)
