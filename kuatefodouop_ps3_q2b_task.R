@@ -67,7 +67,7 @@ for (t in 1:T) {
   
   # Batch
   if (t %% 100 == 0) { # Batch update every 100 iterations
-    theta.batch <- pinv(t(X) %*% X) %*% t(X) %*% Y
+    theta.batch <- matrix(lm(Y ~ X - 1)$coefficients)
     batch.risk <- c(batch.risk, t(theta.batch - theta.star) %*% A %*% (theta.batch - theta.star))
   }
   

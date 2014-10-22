@@ -29,3 +29,5 @@ for (i in 1:m) {
     }
   }
 }
+
+save(chrono.list, file="./out/glmnet_timing.RData")
