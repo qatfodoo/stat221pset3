@@ -42,7 +42,7 @@ alpha <- 1e-2
 for (t in 1:T) {
   if (t %% 100 == 0) {print(t)}
   # Generate covariates
-  x <- rmvnorm(1, mean=rep(0, p), sigma=eye(p)) # Note: change for A?
+  x <- rmvnorm(1, mean=rep(0, p), sigma=diag(p)) # Note: change for A?
   
   # SGD and ASGD
   a_t.sgd <- (1 + 0.02 * t)^(- 1)
