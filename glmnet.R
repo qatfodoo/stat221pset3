@@ -9,6 +9,7 @@
 #  run.glmnet(1e4, 10)
 #
 rm(list=ls())
+source("pset3.R")
 library(mvtnorm)
 library(glmnet)
 library(lars)
@@ -108,8 +109,10 @@ run.fit <- function(dim.n, dim.p,
       } else if (type == "cov") {
         new.dt = system.time({ fit = glmnet(x, y, alpha=1, standardize=FALSE, type.gaussian="covariance")})[1]
       } else if (type == "lars") {
-        use.gram <- ifelse(dim.n < dim.p, TRUE, FALSE)
+        use.gram <- ifelse(dim.n > dim.p, TRUE, FALSE)
         new.dt = system.time({ fit = lars(x, y, type="lasso", use.Gram=use.gram) })[1]
+      } else if (type == "sgd") {
+        new.dt = system.time({ fit = sgd(dataset, plot=F) })[1]
       }
       
       # 3. Tabulate timings

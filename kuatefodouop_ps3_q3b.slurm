@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -J regr-sgd # name for job array
+#SBATCH -J timing-glmnet # name for job array
 #SBATCH -o ./dump/q3btask.out #Standard output
 #SBATCH -e ./dump/q3btask.err #Standard error
 #SBATCH -p general #Partition
