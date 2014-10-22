@@ -49,7 +49,7 @@ if (Sys.getenv("SLURM_JOB_ID") != "") { # Divide computation per tasks
   alpha <- 1e-2
   
   for (t in 1:T) {
-    if (t %% 100 == 0) {print(t)}
+    if (t %% 1000 == 0) {print(t)}
     # Generate covariates
     x <- rmvnorm(1, mean=rep(0, p), sigma=diag(p)) # Note: change for A?
     

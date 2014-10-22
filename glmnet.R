@@ -108,7 +108,8 @@ run.fit <- function(dim.n, dim.p,
       } else if (type == "cov") {
         new.dt = system.time({ fit = glmnet(x, y, alpha=1, standardize=FALSE, type.gaussian="covariance")})[1]
       } else if (type == "lars") {
-        new.dt = system.time({ fit = lars(x, y, type="lasso") })[1]
+        use.gram <- ifelse(dim.n < dim.p, TRUE, FALSE)
+        new.dt = system.time({ fit = lars(x, y, type="lasso", use.Gram=use.gram) })[1]
       }
       
       # 3. Tabulate timings
