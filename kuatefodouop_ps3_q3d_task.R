@@ -2,8 +2,8 @@ source("glmnet_odys.R")
 
 # 3 (d)
 
-N.list <- c(1e5, 1e4, 1e5, 1e6, 1e6, 1e7)
-p.list <- c(1e2, 1e3, 1e3, 1e2, 1e3, 1e2)
+N.list <- c(1e4, 1e4, 1e3, 1e2, 1e1, 1e7)
+p.list <- c(1e2, 1e3, 1e3, 1e2, 1e3, 1e1)
 m <- length(N.list)
 rho <- c(0.00, 0.10, 0.20, 0.50, 0.90, 0.95)
 n.cor <- length(rho)
