@@ -1,0 +1,14 @@
+Loading required package: Matrix
+Loading required package: methods
+Loaded glmnet 1.9-8
+
+slurmstepd: error: *** JOB 22834911 CANCELLED AT 2014-10-23T05:27:26 DUE TO TIME LIMIT on holy2a03307 ***
+slurmstepd: error: _slurm_cgroup_destroy: problem deleting step cgroup path /cgroup/freezer/slurm/uid_556704/job_22834911/step_batch: Device or resource busy
+slurmstepd: error: *** JOB 22834912 CANCELLED AT 2014-10-23T05:32:25 DUE TO TIME LIMIT on holy2a07207 ***
+slurmstepd: error: _slurm_cgroup_destroy: problem deleting step cgroup path /cgroup/freezer/slurm/uid_556704/job_22834912/step_batch: Device or resource busy
+slurmstepd: error: *** JOB 22834913 CANCELLED AT 2014-10-23T05:36:49 DUE TO TIME LIMIT on holy2a07202 ***
+slurmstepd: error: _slurm_cgroup_destroy: problem deleting step cgroup path /cgroup/freezer/slurm/uid_556704/job_22834913/step_batch: Device or resource busy
+slurmstepd: error: *** JOB 22834914 CANCELLED AT 2014-10-23T05:41:05 DUE TO TIME LIMIT on holy2a01103 ***
+slurmstepd: error: _slurm_cgroup_destroy: problem deleting step cgroup path /cgroup/freezer/slurm/uid_556704/job_22834914/step_batch: Device or resource busy
+slurmstepd: error: *** JOB 22834915 CANCELLED AT 2014-10-23T05:45:03 DUE TO TIME LIMIT on holy2a11207 ***
+slurmstepd: error: _slurm_cgroup_destroy: problem deleting step cgroup path /cgroup/freezer/slurm/uid_556704/job_22834915/step_batch: Device or resource busy
