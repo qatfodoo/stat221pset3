@@ -1,4 +1,2 @@
-Error in isSymmetric(sigma, tol = sqrt(.Machine$double.eps), check.attributes = FALSE) : 
-  could not find function "eye"
-Calls: rmvnorm -> isSymmetric
-Execution halted
+slurmstepd: error: *** JOB 22815129 CANCELLED AT 2014-10-22T21:15:03 DUE TO TIME LIMIT on holy2a03102 ***
+slurmstepd: error: _slurm_cgroup_destroy: problem deleting step cgroup path /cgroup/freezer/slurm/uid_556704/job_22815129/step_batch: Device or resource busy
