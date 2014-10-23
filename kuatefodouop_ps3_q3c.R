@@ -52,3 +52,5 @@ for (i in 1:m) {
     }
   }
 }
+
+save(mse.list, file="./out/sgd_mse.RData")

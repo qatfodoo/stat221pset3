@@ -154,7 +154,6 @@ run.mse <- function(dim.n, dim.p,
       #   mse = Distance (e.g. RMSE) of the estimates to the ground truth.
       #         (q1, q2, q3) representing the quartiles (since glmnet returns grid of estimates)
       #         Implicit has (x, x, x) i.e., the same value in all places.
-      new.dt = 0
       new.mse = NA
       # 2. Run the method.
       if (type == "naive" || type == "cov") {
