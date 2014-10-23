@@ -45,7 +45,9 @@ if (Sys.getenv("SLURM_JOB_ID") != "") { # Divide computation per tasks
   
   # SGD parameters
   exp <- c(4, 5, 6)
+  print(paste("exp id:", exp.id))
   T <- 10^exp[exp.id]
+  print(T)
   alpha <- 1e-2
   
   for (t in 1:T) {

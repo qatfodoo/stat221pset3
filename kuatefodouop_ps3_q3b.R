@@ -23,7 +23,7 @@ for (i in 1:m) {
   
   for (t in c("naive", "cov", "lars")) {
     print(t)
-    timing <- run.fit(N, p, type=t)
+    timing <- run.timing(N, p, type=t)
     for (r in 1:length(rho)) {
       chrono.list[[i]]$timing[t][r, 1] <- mean(timing[which(timing[, 1]== rho[r]), 3])
     }
