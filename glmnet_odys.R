@@ -1,6 +1,7 @@
 # Copyright (c) 2013
 # Panos Toulis, ptoulis@fas.harvard.edu
 # Modified by Kevin Kuate Fodouop
+# Version without lars package to be run on odyssey
 #
 # Using the simulation setup as in glmnet JoSS paper(Friedman, Hastie, Tibshirani)
 # http://www.jstatsoft.org/v33/i01/
@@ -12,7 +13,6 @@ rm(list=ls())
 source("pset3.R")
 library(mvtnorm)
 library(glmnet)
-library(lars)
 
 # genjerry, genx2 are functions taken from the above paper.
 # These functions generate the simulation data.
@@ -70,18 +70,18 @@ dist <- function(x, y) {
 }
 
 # Main function to run this experiment.
-run.timing <- function(dim.n, dim.p,
-                    rho.values=c(0.0, 0.1, 0.2, 0.5, 0.9, 0.95),
-                    type="naive",
-                    nreps=3, 
-                    verbose=F) {
+run.comp <- function(dim.n, dim.p,
+                       rho.values=c(0.0, 0.1, 0.2, 0.5, 0.9, 0.95),
+                       type="naive",
+                       nreps=3, 
+                       verbose=F) {
   ## Runs glmnet() for various param values.
   ##
   niters = 0
-  cols = c("rho", "rep", "time")
-  timings = matrix(nrow=0, ncol=length(cols))
-  colnames(timings) <- cols
-  rownames(timings) = NULL
+  cols = c("rho", "rep", "time", "mse")
+  comp = matrix(nrow=0, ncol=length(cols))
+  colnames(comp) <- cols
+  rownames(comp) = NULL
   total.iters = nreps * length(rho.values)
   
   pb = txtProgressBar(style=3)
@@ -103,77 +103,22 @@ run.timing <- function(dim.n, dim.p,
       # 2. Run the method.
       if (type == "naive") {
         new.dt = system.time({ fit = glmnet(x, y, alpha=1, standardize=FALSE, type.gaussian="naive")})[1]
+        new.mse <- median(apply(fit$beta, 2, function(est) dist(est, true.theta)))  
       } else if (type == "cov") {
         new.dt = system.time({ fit = glmnet(x, y, alpha=1, standardize=FALSE, type.gaussian="covariance")})[1]
-      } else if (type == "lars") {
-        use.gram <- ifelse(dim.n > dim.p, TRUE, FALSE)
-        new.dt = system.time({ fit = lars(x, y, type="lasso", use.Gram=use.gram) })[1]
+        new.mse <- median(apply(fit$beta, 2, function(est) dist(est, true.theta)))
       } else if (type == "sgd") {
         new.dt = system.time({ fit = sgd(dataset, plot=F) })[1]
-      }
-      
-      # 3. Tabulate timings
-      timings = rbind(timings, c(rho, i, 
-                                 new.dt))
-      setTxtProgressBar(pb, niters/total.iters)
-    }
-    
-  }
-  return(timings)
-}
-
-# Main function to run this experiment.
-run.mse <- function(dim.n, dim.p,
-                       rho.values=c(0.0, 0.1, 0.2, 0.5, 0.9, 0.95),
-                       type="naive",
-                       nreps=3, 
-                       verbose=F) {
-  ## Runs glmnet() for various param values.
-  ##
-  niters = 0
-  cols = c("rho", "rep", "mse")
-  mse = matrix(nrow=0, ncol=length(cols))
-  colnames(mse) <- cols
-  rownames(mse) = NULL
-  total.iters = nreps * length(rho.values)
-  
-  pb = txtProgressBar(style=3)
-  
-  seeds=sample(1:1e9, size=total.iters)
-  for(i in 1:nreps) {
-    for(rho in rho.values) {
-      niters = niters + 1
-      set.seed(seeds[niters])
-      # 1. (For every repetition) Sample the dataset
-      dataset = sample.data(dim.n=dim.n, dim.p=dim.p, rho=rho, snr=3.0)
-      true.theta = dataset$theta
-      x = dataset$X
-      y = dataset$Y
-      stopifnot(nrow(x) == dim.n, ncol(x) == dim.p)
-      # 1b. Define metrics:
-      #   mse = Distance (e.g. RMSE) of the estimates to the ground truth.
-      #         (q1, q2, q3) representing the quartiles (since glmnet returns grid of estimates)
-      #         Implicit has (x, x, x) i.e., the same value in all places.
-      new.dt = 0
-      new.mse = NA
-      # 2. Run the method.
-      if (type == "naive" || type == "cov") {
-        fit = glmnet(x, y, alpha=1, standardize=FALSE, type.gaussian="naive")
-        new.mse <- median(apply(fit$beta, 2, function(est) dist(est, true.theta)))
-      } else if (type == "cov") {
-        fit = glmnet(x, y, alpha=1, standardize=FALSE, type.gaussian="covariance")
-        new.mse <- median(apply(fit$beta, 2, function(est) dist(est, true.theta)))
-      } else if (type == "sgd") { # SGD
-        fit <- sgd(dataset, plot=F)
         new.mse <- dist(fit[, dim(fit)[2]], true.theta)
       }
       
-      # 3. Tabulate mse
-      mse = rbind(mse, c(rho, i,  
-                          new.mse))
+      # 3. Tabulate timings
+      comp = rbind(comp, c(rho, i, 
+                                 new.dt,
+                                 new.mse))
       setTxtProgressBar(pb, niters/total.iters)
     }
     
   }
-  return(mse)
+  return(comp)
 }

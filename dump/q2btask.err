@@ -1,2 +1,2 @@
-Error: object 'theta.batch' not found
+Error: could not find function "pinv"
 Execution halted
