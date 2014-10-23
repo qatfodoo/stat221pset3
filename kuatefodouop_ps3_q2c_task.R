@@ -6,8 +6,8 @@ N <- 10000
 p <- 100
 
 methods <- c("SGD", "Implicit", "ASGD")
-amin <- 0.05
-amax <- 10
+amin <- 0.01
+amax <- 100
 seq <- seq(amin, amax, length.out=10)
 m <- 1000
 
@@ -28,7 +28,7 @@ if (Sys.getenv("SLURM_JOB_ID") != "") { # Divide computation per tasks
   task.id <- as.numeric(Sys.getenv("SLURM_ARRAY_TASK_ID"))
   print(paste("Task id", task.id, sep=": "))
   meth.id <- task.id %% 3 + 1 # Method handled by task
-  seq.id <- task.idd %% 10 + 1 # Alpha handled by task
+  seq.id <- task.id %% 10 + 1 # Alpha handled by task
   
   gc() # garbage collection
   t1.sim <- as.numeric(Sys.time())
