@@ -81,3 +81,39 @@ sgd <- function(data, plot=T) {
     return(theta.sgd)
   }
 }
+
+run.asgd <- function(data, alpha) {
+  # check.data(data)
+  n = nrow(data$X)
+  p = ncol(data$X)
+  I = diag(p)
+  theta.sgd = matrix(0, nrow=p, ncol=1)
+  theta.asgd = matrix(0, nrow=p, ncol=1)
+  
+  for(i in 1:n) {
+    xi = data$X[i, ]
+    ai = alpha / i
+    # make computations easier.
+    lpred = sum(theta.sgd * xi)
+    theta.sgd = (theta.sgd - ai * lpred * xi) + ai * data$Y[i] * xi
+    theta.asgd <- (1 - 1 / i) * theta.asgd + 1 / i * theta.sgd
+  }
+  return(theta.asgd)
+}
+
+run.implicit <- function(data, alpha) {
+  # check.data(data)
+  n = nrow(data$X)
+  p = ncol(data$X)
+  I = diag(p)
+  theta.impl = matrix(0, nrow=p, ncol=1)
+  
+  for(i in 1:n) {
+    xi = matrix(data$X[i, ])
+    ai = alpha / i
+    # make computations easier.
+    theta.impl <- (diag(p) - as.numeric(ai / (1 + ai * t(xi) %*% xi)) * xi %*% t(xi)) %*%
+      (theta.impl + as.numeric(ai * data$Y[i]) * xi)
+  }
+  return(theta.impl)
+}
